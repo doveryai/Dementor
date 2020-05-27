@@ -1,0 +1,26 @@
+{
+  "Apps": [
+    {
+      "Name": "Pooh",
+      "Action": "NOTIFY"
+    },
+    {
+      "Name": "Pee",
+      "Action": "KILL, NOTIFY"
+    },
+    {
+      "Name": "Pop",
+      "Action": "NOTIFY"
+    },
+    {
+      "Name": "Roblox",
+      "Action": "NOTIFY"
+    }
+  ],
+  "BrowserTabs": [
+    {
+      "Name": "Roblox",
+      "Action": "NOTIFY"
+    }
+  ]
+}
