@@ -1,8 +1,8 @@
 {
   "Apps": [
     {
-      "Name": "Pooh",
-      "Action": "NOTIFY"
+      "Name": "Minecraft.Windows.exe",
+      "Action": "KILL"
     },
     {
       "Name": "Pee",

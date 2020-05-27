@@ -17,38 +17,6 @@ namespace Dementor
 
         public BlackList()
         {
-            Apps = new List<Item>
-            {
-                new App
-                {
-                    Name = "Pooh",
-                    Action = Action.NOTIFY
-                },
-                new App
-                {
-                    Name = "Pee",
-                    Action = Action.KILL | Action.NOTIFY
-                },
-                new App
-                {
-                    Name = "Pop",
-                    Action = Action.NOTIFY
-                },
-                new BrowserTab
-                {
-                    Name = "Roblox",
-                    Action = Action.NOTIFY
-                }
-            };
-
-            BrowserTabs = new List<Item>
-            {
-                new BrowserTab
-                {
-                    Name = "Roblox",
-                    Action = Action.NOTIFY
-                }
-            };
         }
 
         public class Item
