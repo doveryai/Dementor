@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Diagnostics;
+using System.Reflection;
 using Newtonsoft.Json;
-using System.Configuration;
 
 namespace Dementor
 {
@@ -31,7 +31,10 @@ namespace Dementor
 
             //serialize from local file for now
 
-            using (var fs = new FileStream(appsettings.BlacklistFile, FileMode.Open, FileAccess.Read))
+
+            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), appsettings.BlacklistFile);
+
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new StreamReader(fs))
                 {
