@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Dementor
@@ -9,7 +10,7 @@ namespace Dementor
     {
         [Flags]
         [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum Action { KILL = 0x1, NOTIFY = 0x2 }
+        public enum Action { KILL = 0x1, NOTIFY = 0x2, MESSAGE = 0x4}
 
         public List<Item> Apps { get; set; }
 
@@ -24,16 +25,21 @@ namespace Dementor
             public string Name { get; set; }
 
             public Action Action { get; set; }
+
+            [JsonIgnore]
+            public bool Detected { get; set; }
+
+            [JsonIgnore]
+            public Process Process { get; set; }
         }
 
         public class App : Item
-        {
-
+        {            
         }
 
-        private class BrowserTab: Item
+        public class BrowserTab: Item
         {
-
+            public string domain { get; set; }
         }
     }
 }

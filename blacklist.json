@@ -1,8 +1,8 @@
 {
   "Apps": [
     {
-      "Name": "Minecraft.Windows.exe",
-      "Action": "KILL"
+      "Name": "Minecraft.Windows",
+      "Action": "KILL, NOTIFY, MESSAGE"      
     },
     {
       "Name": "Pee",
