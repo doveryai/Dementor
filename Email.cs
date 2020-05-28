@@ -33,7 +33,10 @@ namespace Dementor
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress(From);
-                mail.To.Add(To);
+                var to = To.Split(',');
+                foreach(var t in to)
+                    mail.To.Add(t);
+
                 mail.Subject = Subject;
                 mail.Body = Body;
                 mail.IsBodyHtml = false;

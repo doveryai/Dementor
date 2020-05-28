@@ -64,6 +64,7 @@ namespace Dementor
             if (x.Count() > 0)
             {
                 var naughtyApps = String.Join(',', x.Select(x => x.Name).ToArray());
+                var user = GetProcessOwner(x.First().Process.Id);
 
                 var ec = new Email();
                 ec.From = appsettings.EmailFrom;
@@ -71,7 +72,7 @@ namespace Dementor
                 ec.SmtpAddress = appsettings.EmailSmtpAddress;
                 ec.SmtpPort = appsettings.EmailSmtpPort;
                 ec.Subject = "Detected prohibited app usage";
-                ec.Body = $"The following apps were running: {naughtyApps}.";
+                ec.Body = $"User {user} had the following apps running: {naughtyApps} on host: {Environment.MachineName}";
                 ec.Username = appsettings.EmailUserName;
                 ec.Password = appsettings.EmailPassword;
 
