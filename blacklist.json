@@ -2,15 +2,11 @@
   "Apps": [
     {
       "Name": "Minecraft.Windows",
-      "Action": "KILL, NOTIFY, MESSAGE"      
+      "Action": "KILL, NOTIFY, MESSAGE"
     },
     {
-      "Name": "Pee",
-      "Action": "KILL, NOTIFY"
-    },
-    {
-      "Name": "Pop",
-      "Action": "NOTIFY"
+      "Name": "MinecraftLauncher",
+      "Action": "KILL, NOTIFY, MESSAGE"
     },
     {
       "Name": "Roblox",

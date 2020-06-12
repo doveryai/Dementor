@@ -5,6 +5,7 @@ using System.Management;
 using System.Diagnostics;
 using System.Reflection;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Dementor
 {
@@ -16,31 +17,30 @@ namespace Dementor
         public ProcessMonitor(DementorSettings appsettings)
         {
             this.appsettings = appsettings;
-            //using (var client = new WebClient())
-            //{
-            //    client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+            using (var client = new WebClient())
+            {
+                client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
 
-            //    using (var data = client.OpenRead("https://raw.githubusercontent.com/doveryai/Dementor/master/blacklist.json"))
-            //    {
-            //        using (var reader = new StreamReader(data))
-            //        {
-            //            this.blackList = JsonConvert.DeserializeObject<BlackList>(reader.ReadToEnd());
-            //        }
-            //    }
-            //}
+                using (var data = client.OpenRead("https://raw.githubusercontent.com/doveryai/Dementor/master/blacklist.json"))
+                {
+                    using (var reader = new StreamReader(data))
+                    {
+                        this.blackList = JsonConvert.DeserializeObject<BlackList>(reader.ReadToEnd());
+                    }
+                }
+            }
 
             //serialize from local file for now
 
+            //var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), appsettings.BlacklistFile);
 
-            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), appsettings.BlacklistFile);
-
-            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                using (var reader = new StreamReader(fs))
-                {
-                    this.blackList = JsonConvert.DeserializeObject<BlackList>(reader.ReadToEnd());
-                }
-            }
+            //using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            //{
+            //    using (var reader = new StreamReader(fs))
+            //    {
+            //        this.blackList = JsonConvert.DeserializeObject<BlackList>(reader.ReadToEnd());
+            //    }
+            //}
         }
 
         public void Scan()
