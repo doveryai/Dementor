@@ -4,8 +4,9 @@ using System.Linq;
 using System.Management;
 using System.Diagnostics;
 using System.Reflection;
-using Newtonsoft.Json;
 using System.Net;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Dementor
 {
@@ -13,14 +14,17 @@ namespace Dementor
     {
         private BlackList blackList;
         private DementorSettings appsettings;
+        private readonly ILogger<Worker> logger;
 
-        public ProcessMonitor(DementorSettings appsettings)
+        public ProcessMonitor(DementorSettings appsettings, ILogger<Worker> logger)
         {
             this.appsettings = appsettings;
+            this.logger = logger;
 
             var retrievedRemoteBlacklist = true;
             try
             {
+                logger.LogDebug("Retrieving blacklist...");
                 using (var client = new WebClient())
                 {
                     client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
@@ -33,6 +37,7 @@ namespace Dementor
                         }
                     }
                 }
+                logger.LogDebug("Blacklist retrieved.");
             }
             catch(Exception ex)
             {
@@ -42,6 +47,8 @@ namespace Dementor
             //fall back to serialize from local file for now
             if (!retrievedRemoteBlacklist)
             {
+                logger.LogDebug("Failed to retrieve blacklist. Using local list.");
+
                 var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), appsettings.BlacklistFile);
 
                 using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
@@ -56,9 +63,8 @@ namespace Dementor
 
         public void Scan()
         {
+            logger.LogDebug("Scanning processes...");
             var processes = Process.GetProcesses();
-
-            var sendMessage = false;
 
             //just do desktop apps for now
             foreach (var a in blackList.Apps)
@@ -69,6 +75,14 @@ namespace Dementor
                     a.Process = p;
                 }
             }
+
+            if (blackList.Apps.Where(x => x.Detected).Count() == 0)
+            {
+                logger.LogDebug("No blacklisted apps detected.");
+                return;
+            }
+
+            logger.LogDebug("Found one more more blacklisted apps.");
 
             //collect the detected apps that warrant an email
             var x = blackList.Apps.Where(x => x.Detected && x.Action.HasFlag(BlackList.Action.NOTIFY));
@@ -90,7 +104,7 @@ namespace Dementor
                 ec.SendEmail();
             }
 
-            //collect the detected apps that warrant an email
+            //issue a pop-up to the naughty person
             x = blackList.Apps.Where(x => x.Detected && x.Action.HasFlag(BlackList.Action.MESSAGE));
             if (x.Count() > 0)
             {
@@ -101,12 +115,13 @@ namespace Dementor
                 Process.Start(ps);
             }
 
-            //collect the detected apps that warrant an email
+            //kill the prohibited processes
             x = blackList.Apps.Where(x => x.Detected && x.Action.HasFlag(BlackList.Action.MESSAGE));
+            logger.LogDebug("Killing prohibited processeses.");
             foreach (var p in x)
             {
                 if (!p.Process.CloseMainWindow())
-                    p.Process.Kill();
+                    p.Process.Kill(true);                    
             }
         }
 

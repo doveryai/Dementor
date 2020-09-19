@@ -17,12 +17,12 @@ namespace Dementor
     public class Worker : BackgroundService
     {
 
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<Worker> logger;
         private DementorSettings appsettings;
 
         public Worker(ILogger<Worker> logger, IOptions<DementorSettings> appsettings)
         {
-            _logger = logger;
+            this.logger = logger;
             this.appsettings = appsettings.Value;
         }
 
@@ -30,9 +30,7 @@ namespace Dementor
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Dementor started at: {time}", DateTimeOffset.Now);
-
-                var pm = new ProcessMonitor(appsettings);
+                var pm = new ProcessMonitor(appsettings, logger);
                 pm.Scan();
 
                 await Task.Delay(appsettings.ProcessPollingInterval*1000, stoppingToken);
