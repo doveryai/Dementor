@@ -120,8 +120,8 @@ namespace Dementor
             logger.LogDebug("Killing prohibited processeses.");
             foreach (var p in x)
             {
-                if (!p.Process.CloseMainWindow())
-                    p.Process.Kill(true);                    
+                foreach (var q in Process.GetProcessesByName(p.Process.ProcessName))
+                    q.Kill(true);
             }
         }
 
