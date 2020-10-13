@@ -20,11 +20,6 @@
       "Name": "GamingServices",
       "Action": "KILL,NOTIFY"
     },
-    //war gaming something?
-    {
-      "Name": "wgc",
-      "Action": "KILL,NOTIFY"
-    },
     {
       "Name": "Gamebar",
       "Action": "KILL,NOTIFY"
