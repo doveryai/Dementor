@@ -11,22 +11,6 @@
     {
       "Name": "Roblox",
       "Action": "NOTIFY"
-    },
-    {
-      "Name": "GamingServicesNet",
-      "Action": "KILL,NOTIFY"
-    },
-    {
-      "Name": "GamingServices",
-      "Action": "KILL,NOTIFY"
-    },
-    {
-      "Name": "Gamebar",
-      "Action": "KILL,NOTIFY"
-    },
-    {
-      "Name": "GamebarFT",
-      "Action": "KILL,NOTIFY"
     }
   ],
   "BrowserTabs": [
