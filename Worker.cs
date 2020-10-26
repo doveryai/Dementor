@@ -7,13 +7,6 @@ using Microsoft.Extensions.Options;
 
 namespace Dementor
 {
-    //TOOD: installer
-    //TODO: sqlite db
-    //TODO: API/service for distributed logging
-    //TODO: support for blacklisting browser tabs
-    //TODO: restructure blacklist to support schedules
-    //TODO: roles, security
-
     public class Worker : BackgroundService
     {
 

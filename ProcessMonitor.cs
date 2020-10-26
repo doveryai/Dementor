@@ -66,7 +66,7 @@ namespace Dementor
             logger.LogDebug("Scanning processes...");
             var processes = Process.GetProcesses();
 
-            //just do desktop apps for now
+            #region desktop apps
             foreach (var a in blackList.Apps)
             {
                 foreach (var p in processes.Where(x => x.ProcessName.ToLower().Equals(a.Name.ToLower())))
@@ -75,6 +75,12 @@ namespace Dementor
                     a.Process = p;
                 }
             }
+            #endregion
+
+            #region chrome
+            var ci = new ChromeInspector();
+            ci.Inspect();
+            #endregion
 
             if (blackList.Apps.Where(x => x.Detected).Count() == 0)
             {

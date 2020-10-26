@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.EventLog;
-using System.ServiceProcess;
 
 namespace Dementor
 {
@@ -11,7 +10,13 @@ namespace Dementor
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args);
+#if DEBUG
+            var task = host.RunConsoleAsync();
+            task.Wait();
+#else
+            host.Build().Run();
+#endif
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -34,6 +39,6 @@ namespace Dementor
                     }
                 })
                 .ConfigureLogging((_, logging) => logging.AddEventLog())
-                .UseWindowsService();    
+                .UseWindowsService();
     }
 }
