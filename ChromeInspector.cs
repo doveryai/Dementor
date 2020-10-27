@@ -36,40 +36,40 @@ namespace Dementor
 
                     for (int i = 0; i < chromeTabCollection.Length; i++)
                     {
-                        var item = chromeTabCollection.GetElement(i);
-                        Console.WriteLine($"Tab: {item.CurrentName}");
+                        var item = chromeTabCollection.GetElement(i);                       
+                        //Console.WriteLine($"Tab: {item.CurrentName}");
                     }
 
-                    //UIA_NamePropertyId 30005
-                    var chromeSearchbarCondition = uiaClassObject.CreatePropertyCondition(30005, "Address and search bar");
-                    var chromeSearchbar = chromeMainUIAElement.FindAll(Interop.UIAutomationClient.TreeScope.TreeScope_Descendants, chromeSearchbarCondition);
+                    ////UIA_NamePropertyId 30005
+                    //var chromeSearchbarCondition = uiaClassObject.CreatePropertyCondition(30005, "Address and search bar");
+                    //var chromeSearchbar = chromeMainUIAElement.FindAll(Interop.UIAutomationClient.TreeScope.TreeScope_Descendants, chromeSearchbarCondition);
 
-                    tagPOINT tp = new tagPOINT() { x = 0, y = 0 };
-                    for (int i = 0; i < chromeSearchbar.Length; i++)
-                    {
-                        var item = chromeSearchbar.GetElement(i);
-                        //https://docs.microsoft.com/en-us/windows/win32/winauto/uiauto-controlpattern-ids
-                        var result = item.GetClickablePoint(out tp);
-                    }
+                    //tagPOINT tp = new tagPOINT() { x = 0, y = 0 };
+                    //for (int i = 0; i < chromeSearchbar.Length; i++)
+                    //{
+                    //    var item = chromeSearchbar.GetElement(i);
+                    //    //https://docs.microsoft.com/en-us/windows/win32/winauto/uiauto-controlpattern-ids
+                    //    var result = item.GetClickablePoint(out tp);
+                    //}
 
-                    //can't find the right call to get value from Interop.Automation, use the old method
-                    //var root = AutomationElement.FromHandle(proc.MainWindowHandle);
-                    //var condSearch = new PropertyCondition(AutomationElement.NameProperty, "Address and search bar", System.Windows.Automation.PropertyConditionFlags.IgnoreCase);
-                    //var search = root.FindFirst(System.Windows.Automation.TreeScope.Descendants, condSearch);
+                    ////can't find the right call to get value from Interop.Automation, use the old method
+                    ////var root = AutomationElement.FromHandle(proc.MainWindowHandle);
+                    ////var condSearch = new PropertyCondition(AutomationElement.NameProperty, "Address and search bar", System.Windows.Automation.PropertyConditionFlags.IgnoreCase);
+                    ////var search = root.FindFirst(System.Windows.Automation.TreeScope.Descendants, condSearch);
 
-                    var point = new System.Windows.Point();
-                    point.X = tp.x;
-                    point.Y = tp.y;
+                    //var point = new System.Windows.Point();
+                    //point.X = tp.x;
+                    //point.Y = tp.y;
 
-                    var search = AutomationElement.FromPoint(point);
+                    //var search = AutomationElement.FromPoint(point);
 
-                    if (search.TryGetCurrentPattern(ValuePattern.Pattern, out object patternObj))
-                    {
-                        var valuePattern = (ValuePattern)patternObj;
-                        var url = valuePattern.Current.Value;
+                    //if (search.TryGetCurrentPattern(ValuePattern.Pattern, out object patternObj))
+                    //{
+                    //    var valuePattern = (ValuePattern)patternObj;
+                    //    var url = valuePattern.Current.Value;
 
-                        Console.WriteLine($"Chrome is pointing to {url}.");
-                    }
+                    //    Console.WriteLine($"Chrome is pointing to {url}.");
+                    //}
                 }
             }
         }
